@@ -22,7 +22,6 @@ CONTRACT master : public eosio::contract {
       bool          isStrongHands;// is stronghands bool
       uint64_t      timestamp;    // the store the last update block time
 
-
       // primary key
       auto primary_key() const { return prim_key; }
       // secondary key
@@ -38,10 +37,53 @@ CONTRACT master : public eosio::contract {
 
     master_table _master;
 
-
   public:
 
     using contract::contract;
+
+       //**************************************
+       //************* Modifiers **************
+       //**************************************
+
+       bool isBagholder() //check user bagholder status
+       {
+          auto master_index = _master.get_index<name("getbyuser")>();
+          auto &master_entry = master_index.get(user.value);
+
+          if(myTokens() > 0){
+            master_entry.isBagholder == true;
+          }
+          else{
+            master_entry.isBagholder == false;
+          }
+
+          if (master_entry.isBagholder == true){
+            return true;
+          }
+          else{
+            return false;
+          }
+       };
+
+       bool isStrongHands() //check user stronghands status
+       {
+          auto master_index = _master.get_index<name("getbyuser")>();
+          auto &master_entry = master_index.get(user.value);
+
+          if(myDividends(true) > 0){
+            master_entry.isStrongHands == true;
+          }
+          else{
+            master_entry.isStrongHands == false;
+          }
+
+          if (master_entry.isStrongHands == true){
+            return true;
+          }
+          else{
+            return false;
+          }
+       };
 
        //**************************************
        //********* Token Generation ***********
@@ -62,21 +104,60 @@ CONTRACT master : public eosio::contract {
        //***************************************
 
 
-       void buy() //Buy ABG token 
+       void buy(address _referral) //Buy ABG token 
        {
-
-
-
+          purchaseTokens(msg.value, _referral); //PSUEDO 
        }; 
 
-       void reinvest(); //Convert tokens to dividends
+       void reinvest() //Convert tokens to dividends
+       {
+        if (isStrongHands() == true){
+          //get dividends
+          int dividends = myDividends(false); //retrieve referral business
+
+          address _customerAddress = msg.sender //PSUEDO 
+
+          //send moeny to customer address += dividends * mag
+
+          // get referral bonus
+
+          // create buy order with withdrawn dividens
+
+          //do
+        }
+       }; 
 
 
-       void leave(); // Exit, same as withdraw
+       void leave() // Exit, same as withdraw
+       {
+          address _customerAddress = msg.sender //PSUEDO 
+          int tokens = token call of _customerAddress //PSUEDO 
+          if( tokens > 0){
+            sell(tokens);
+            withdraw();
+          }
 
-       void withdraw(); //Withdraw all earnings
+       };
 
-       void sell(); //liquidate to EOS
+       void withdraw() //Withdraw all earnings
+       {
+          if(isStrongHands() == true){
+            address = _customerAddress = msg.sender //PSUEDO 
+            int dividends() = myDividends(false);
+
+            //send money to customer address += dividends * mag
+
+            //get referal bonus
+
+            //transfer divdiends
+
+            //execute
+          }
+
+       };
+
+       void sell() //liquidate to EOS
+       {};
 
        //***************************************
        //************** Actions ****************
@@ -91,45 +172,45 @@ CONTRACT master : public eosio::contract {
        //*************** Info ******************
        //***************************************
 
-       void totalBalance(); //Get total EOS balance
+       void totalBalance() //Get total EOS balance
+       {};
 
-       void totalSupply();  //Get total tokens
+       void totalSupply()  //Get total tokens
+       {};
 
-       void myTokens(); //Retrieve tokens of caller
+       void myTokens() //Retrieve tokens of caller
+       {};
 
-       void myDividends(); //Retrieve dividends of caller
+       void myDividends() //Retrieve dividends of caller
+       {};
 
-       void balanceOf(); //Retrieve balance of address
+       void balanceOf() //Retrieve balance of address
+       {};
 
-       void dividendOf(); //Retrieve divdend of address
+       void dividendOf() //Retrieve divdend of address
+       {};
 
-       void sellPrice(); //Retrieve current ABG token sell price
+       void sellPrice() //Retrieve current ABG token sell price
+       {};
 
-       void buyPrice(); //Retrieve current ABG token buy price
+       void buyPrice() //Retrieve current ABG token buy price
+       {};
 
-       void tokensReceived(); //Frontend function call
+       void tokensReceived() //Frontend function call
+       {};
 
-       void EOSReceived(); //Frontend function call
+       void EOSReceived() //Frontend function call
+       {};
 
        //***************************************
        //*************** Admin *****************
        //***************************************
 
-       void purchaseTokens(); //System buy tokens
+       void purchaseTokens() //System buy tokens
+       {};
 
-       void EOS_to_ABG(); //Calculate sell value 
-
-
-
-
-
-
-
-
+       void EOS_to_ABG() //Calculate sell value 
+       {};
  }
-
-
-
-
 
  EOSIO_DISPATCH( master, (update) )
