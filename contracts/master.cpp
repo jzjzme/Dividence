@@ -7,7 +7,36 @@ using namespace eosio;
 CONTRACT master : public eosio::contract {
   private:
 
-    struct
+
+    bool isnewuser( name user ) {
+      auto master_index = _master.get_index<name("getbyuser")>();
+      auto master_iterator = master_index.find(user.value);
+
+      return master_iterator == master_index.end();
+    }
+
+    TABLE masterStruct{
+      uint64_t      prim_key;     // primary key
+      name          user;         // account name for the user
+      bool          isBagholder;  // is bagholder bool
+      bool          isStrongHands;// is stronghands bool
+      uint64_t      timestamp;    // the store the last update block time
+
+
+      // primary key
+      auto primary_key() const { return prim_key; }
+      // secondary key
+      // only supports uint64_t, uint128_t, uint256_t, double or long double
+      uint64_t get_by_user() const { return user.value; }
+
+    }
+
+    // create a multi-index table and support secondary key
+    typedef eosio::multi_index< name("masterstruct"), masterstruct,
+      indexed_by< name("getbyuser"), const_mem_fun<notestruct, uint64_t, &masterstruct::get_by_user> >
+      > master_table;
+
+    master_table _master;
 
 
   public:
@@ -33,7 +62,12 @@ CONTRACT master : public eosio::contract {
        //***************************************
 
 
-       void buy(); //Buy ABG token 
+       void buy() //Buy ABG token 
+       {
+
+
+
+       }; 
 
        void reinvest(); //Convert tokens to dividends
 
