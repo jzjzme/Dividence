@@ -157,7 +157,26 @@ CONTRACT master : public eosio::contract {
        };
 
        void sell() //liquidate to EOS
-       {};
+       {
+          if(isBagholder() == false){
+            address _customerAddress = msg.sender //PSUEDO 
+
+            if(amount of tokens <= tokenbalance ledger){//PSUEDO 
+              int tokens = amount of tokens //PSUEDO 
+              int EOS = tokens to EOS //PSUEDO 
+              int dividends = EOS / dividend fee //PSUEDO 
+              int taxes = EOS - dividends //PSUEDO 
+
+              // burn the tokens
+
+              token supply = token supply - tokens //PSUEDO 
+              token balance ledger = token balance - token supply //PSUEDO 
+              
+            }
+
+          }
+
+       };
 
        //***************************************
        //************** Actions ****************
