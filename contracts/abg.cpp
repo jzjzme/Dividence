@@ -9,9 +9,19 @@ CONTRACT abg : public eosio::contract {
 
   public:
 
+  	using contract::contract;
+
+  	 //***************************************
+     //************** Actions ****************
+     //***************************************
+
+
 
 
  }
+
+
+ 
 
 
 
