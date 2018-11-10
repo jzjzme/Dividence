@@ -3,7 +3,7 @@
 using namespace eosio;
 
 
-CONTRACT master : public eosio::contract {
+CONTRACT abg : public eosio::contract {
   private:
 
 
@@ -17,4 +17,4 @@ CONTRACT master : public eosio::contract {
 
 
 
- EOSIO_DISPATCH( master, (update) )
+ EOSIO_DISPATCH( abg, (update) )
