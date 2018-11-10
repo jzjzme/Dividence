@@ -136,7 +136,6 @@ CONTRACT master : public eosio::contract {
             sell(tokens);
             withdraw();
           }
-
        };
 
        void withdraw() //Withdraw all earnings
@@ -153,7 +152,6 @@ CONTRACT master : public eosio::contract {
 
             //execute
           }
-
        };
 
        void sell() //liquidate to EOS
@@ -171,11 +169,19 @@ CONTRACT master : public eosio::contract {
 
               token supply = token supply - tokens //PSUEDO 
               token balance ledger = token balance - token supply //PSUEDO 
-              
+
+              // update dividends
+              int payouts = int profitshare * tokens + (tax * mag) //PSUEDO 
+              payouts to address -= payouts //PSUEDO 
+
+              // Safety
+
+              if(token supply > 0){//PSUEDO 
+                //update dividends per token
+                profitshare = profitshare + (dividends * mag)/ token supply)//PSUEDO 
+              }
             }
-
           }
-
        };
 
        //***************************************
@@ -185,7 +191,43 @@ CONTRACT master : public eosio::contract {
        void transfer( account_name from,
                       account_name to,
                       asset        quantity,
-                      string       memo ); // P2P transfer of tokens in network, include fee here 10%?
+                      string       memo ){// P2P transfer of tokens in network, include fee here 10%?
+        if(isBagholder() == true){
+          address _customerAddress = msg.sender //PSUEDO
+
+          //withdraw dividends
+          if(myDividends(true) >0){
+            withdraw();
+          }
+
+          //10% of tokens returned to network
+          int tokenfee = amount of tokens/dividend fee //PSUEDO 
+          int tax = amount of tokens - token fee //PSUEDO 
+          int dividends = tokens to EOS (token fee) //PSUEDO 
+
+          //burn the fee tokens
+          token supply = token supply - token fee //PSUEDO 
+
+          token balance ledger = token - amount of tokens? //PSUEDO 
+          token to address = token balance + taxes //PSUEDO 
+
+          //update dividends
+
+          payout to _customerAddress -= int profitshare * amount of tokens //PSUEDO 
+          payouts to address += int profitshare * taxed tokens //PSUEDO 
+
+          profitshare = profit share + (dividends * mag)/ token supply //PSUEDO 
+
+          //execute 
+
+          transfer(_customerAddress, to address, taxed tokens)//PSUEDO 
+
+
+
+        }
+
+
+       }
 
        //***************************************
        //*************** Info ******************
