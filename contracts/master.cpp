@@ -43,6 +43,7 @@ CONTRACT master : public eosio::contract {
       int           totalEOS;
       int           sellPrice;
       int           buyPrice;
+      int           exchangerate;
       uint64_t      timestamp;    // the store the last update block time
     }
 
@@ -133,6 +134,14 @@ CONTRACT master : public eosio::contract {
 
           purchaseTokens(value_amount, user);  
 
+          int newamount = EOS_to_ABG(value_amount);
+
+          auto master_index = _master.get_index<name("getbyuser")>();
+          auto &master_entry = master_index.get(user.value);
+          _master.modify( master_entry, _self, [&]( auto& modified_user ) {
+          modified_user.tokens      = newamount;
+          modified_user.timestamp = now();
+          });
           //Give divs
 
           //iterate dividends to all users
@@ -194,6 +203,7 @@ CONTRACT master : public eosio::contract {
               int taxes = EOS - dividends //PSUEDO 
 
               // burn the tokens
+              //transfer token to OG address
               token supply = token supply - tokens //PSUEDO 
               token balance ledger = token balance - token supply //PSUEDO 
 
@@ -209,44 +219,43 @@ CONTRACT master : public eosio::contract {
             }
           }
        };
-
        //***************************************
        //************** Actions ****************
        //***************************************
 
-       void transfer( name         from,
-                      name         to,
-                      asset        quantity,
-                      string       memo ){// P2P transfer of tokens in network, include fee here 10%?
-        if(isBagholder(name user) == true){
-          //withdraw dividends
-          if(myDividends(true) >0){
-            withdraw();
-          }
+       // void transfer( name         from,
+       //                name         to,
+       //                asset        quantity,
+       //                string       memo ){// P2P transfer of tokens in network, include fee here 10%?
+       //  if(isBagholder(name user) == true){
+       //    //withdraw dividends
+       //    if(myDividends(true) >0){
+       //      withdraw();
+       //    }
 
-          //10% of tokens returned to network
-          int tokenfee = amount of tokens/dividend fee //PSUEDO 
-          int tax = amount of tokens - token fee //PSUEDO 
-          int dividends = tokens to EOS (token fee) //PSUEDO 
+       //    //10% of tokens returned to network
+       //    int tokenfee = amount of tokens/dividend fee //PSUEDO 
+       //    int tax = amount of tokens - token fee //PSUEDO 
+       //    int dividends = tokens to EOS (token fee) //PSUEDO 
 
-          //burn the fee tokens
-          token supply = token supply - token fee //PSUEDO 
+       //    //burn the fee tokens
+       //    token supply = token supply - token fee //PSUEDO 
 
-          token balance ledger = token - amount of tokens? //PSUEDO 
-          token to address = token balance + taxes //PSUEDO 
+       //    token balance ledger = token - amount of tokens? //PSUEDO 
+       //    token to address = token balance + taxes //PSUEDO 
 
-          //update dividends
+       //    //update dividends
 
-          payout to _customerAddress -= int profitshare * amount of tokens //PSUEDO 
-          payouts to address += int profitshare * taxed tokens //PSUEDO 
+       //    payout to _customerAddress -= int profitshare * amount of tokens //PSUEDO 
+       //    payouts to address += int profitshare * taxed tokens //PSUEDO 
 
-          profitshare = profit share + (dividends * mag)/ token supply //PSUEDO 
+       //    profitshare = profit share + (dividends * mag)/ token supply //PSUEDO 
 
-          //execute 
+       //    //execute 
 
-          transfer(_customerAddress, to address, taxed tokens)//PSUEDO 
-        }
-       }
+       //    transfer(_customerAddress, to address, taxed tokens)//PSUEDO 
+       //  }
+       // } NO TRANSFER FEES FOR NOW
 
        //***************************************
        //*************** Info ******************
@@ -257,10 +266,9 @@ CONTRACT master : public eosio::contract {
           return dividendOf(user);
        };
 
-
        int dividendOf(name user) //Retrieve divdend of address
        {
-          // int value = (profitshare * tokenbalance[user] - payoutsTo[user] / mag);
+          // int value = (profitshare * tokens of user - payouts to user);
           int value = 0; // for testing purposes 
           return value;
        };
@@ -273,6 +281,7 @@ CONTRACT master : public eosio::contract {
                            name   user) //System buy tokens to user
        {
           std::string memo = "Thanks for playing";
+          //some math to dictate how many tokens received
           issue(user, EOS_amount, memo);
        };
 
