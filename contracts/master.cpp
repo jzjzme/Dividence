@@ -148,7 +148,7 @@ CONTRACT master : public eosio::contract {
 
        }; 
 
-       void reinvest(name user) //Convert tokens to dividends
+       void reinvest(name user int amount) //Convert tokens to dividends
        {
         if (isStrongHands() == true){
 
@@ -157,11 +157,15 @@ CONTRACT master : public eosio::contract {
 
           //send moeny to customer address += dividends 
 
-          int EOS_div = 
+          int EOS_div = dividend*amount;
 
           // create buy order with withdrawn dividends
 
+          purchaseTokens(amount, user);
+
           //Send divs back to community
+
+          //iterate through to send tokens
 
           //iterate addresses send moneys
         }
@@ -193,7 +197,7 @@ CONTRACT master : public eosio::contract {
           }
        };
 
-       void sell(name user) //liquidate to EOS
+       void sell(name user) //liquidate to EOS //needs to be updated
        {
           if(isBagholder() == false){
             if(amount of tokens <= tokenbalance ledger){//PSUEDO 

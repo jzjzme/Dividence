@@ -29,7 +29,10 @@ CONTRACT abg : public eosio::contract {
      //************** Actions ****************
      //***************************************
 
+  	 //Whenever receives money, should reinvest dividends back into the market. 
 
+
+  	 
 
 
  }
