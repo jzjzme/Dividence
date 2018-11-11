@@ -19,6 +19,8 @@ CONTRACT master : public eosio::contract {
     TABLE masterStruct{
       uint64_t      prim_key;     // primary key
       name          user;         // account name for the user * Remember name is current value for EOS build
+      int           tokens;       // total tokens of user
+      int           dividends;    // total dividends of user
       bool          isBagholder;  // is bagholder bool
       bool          isStrongHands;// is stronghands bool
       uint64_t      timestamp;    // the store the last update block time
@@ -31,17 +33,31 @@ CONTRACT master : public eosio::contract {
     }
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< name("masterstruct"), masterstruct,
-      indexed_by< name("getbyuser"), const_mem_fun<notestruct, uint64_t, &masterstruct::get_by_user> >
+      indexed_by< name("getbyuser"), const_mem_fun<masterstruct, uint64_t, &masterstruct::get_by_user> >
       > master_table; //fix maybe?
 
     master_table _master;
+
+    TABLE supplyStruct{
+      int           totalSupply;         
+      int           totalEOS;
+      int           sellPrice;
+      int           buyPrice;
+      uint64_t      timestamp;    // the store the last update block time
+    }
+
+    supplyStruct _supply;
 
     //**************************************
     //********** Configurables *************
     //**************************************
 
-    int magnitude = 2*64; //arbitrary
+    int magnitude = 2*64; //arbitrary not needed now
     int staking_requirement = 1; // 1 ABG or EOS? 
+
+
+
+    // name main = "contract address"
 
     //************ END PRIVATE ****************
   public:
@@ -111,9 +127,16 @@ CONTRACT master : public eosio::contract {
        //******** Entry & Exit points **********
        //***************************************
 
-       void buy(name referral, int value_amount) //Buy ABG token 
+       void buy(name user, int value_amount) //Buy ABG token 
        {
-          purchaseTokens(value_amount, referral); //PSUEDO 
+
+
+          purchaseTokens(value_amount, user);  
+
+          //Give divs
+
+          //iterate dividends to all users
+
        }; 
 
        void reinvest(name user) //Convert tokens to dividends
@@ -121,15 +144,17 @@ CONTRACT master : public eosio::contract {
         if (isStrongHands() == true){
 
           //get dividends
-          int dividends = myDividends(false); //retrieve referral business
+          int dividends = myDividends(false); 
 
-          //send moeny to customer address += dividends * mag
+          //send moeny to customer address += dividends 
 
-          // get referral bonus
+          int EOS_div = 
 
-          // create buy order with withdrawn dividens
+          // create buy order with withdrawn dividends
 
-          //do
+          //Send divs back to community
+
+          //iterate addresses send moneys
         }
        }; 
 
@@ -147,7 +172,9 @@ CONTRACT master : public eosio::contract {
           if(isStrongHands() == true){
             int dividends() = myDividends(false);
 
-            //send money to customer address += dividends * mag
+            //send money to customer address += dividends * mag ideal formula
+
+            tranfer(ABG, user, amount, "withdrawl");
 
             //get referal bonus
 
@@ -218,35 +245,18 @@ CONTRACT master : public eosio::contract {
           //execute 
 
           transfer(_customerAddress, to address, taxed tokens)//PSUEDO 
-
-
-
         }
-
-
        }
 
        //***************************************
        //*************** Info ******************
        //***************************************
 
-       void totalBalance() //Get total EOS balance
-       {};
-
-       void totalSupply()  //Get total tokens
-       {};
-
-       void myTokens() //Retrieve tokens of caller
-       {};
-
-       void myDividends(bool referral_bonus,
-                        name user) //Retrieve dividends of caller (taking bool true false)
+       int myDividends(name user) //Retrieve dividends of caller (taking bool true false)
        {
           return dividendOf(user);
        };
 
-       void balanceOf() //Retrieve balance of address
-       {};
 
        int dividendOf(name user) //Retrieve divdend of address
        {
@@ -255,32 +265,22 @@ CONTRACT master : public eosio::contract {
           return value;
        };
 
-       void sellPrice() //Retrieve current ABG token sell price
-       {};
-
-       void buyPrice() //Retrieve current ABG token buy price
-       {};
-
-       void tokensReceived() //Frontend function call
-       {};
-
-       void EOSReceived() //Frontend function call
-       {};
-
        //***************************************
        //*************** Admin *****************
        //***************************************
 
        void purchaseTokens(int    EOS_amount, 
-                           name    ) //System buy tokens
+                           name   user) //System buy tokens to user
        {
-
+          std::string memo = "Thanks for playing";
+          issue(user, EOS_amount, memo);
        };
 
        int EOS_to_ABG(int EOS)
        {
           int token; //need to think this math lols 
-          // some temp math here
+          // some temp math here 
+          // needs to be dynamic with formula later, works for hackathon
 
           token = 10;
 
