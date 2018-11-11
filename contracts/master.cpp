@@ -269,8 +269,10 @@ CONTRACT master : public eosio::contract {
        void purchaseTokens() //System buy tokens
        {};
 
-       void EOS_to_ABG() //Calculate sell value 
-       {};
+       void ABG_to_EOS(int tokens) //Calculate sell value of tokens back 
+       {
+          int token; //need to think this math
+       };
  }
 
  EOSIO_DISPATCH( master, (update) )
