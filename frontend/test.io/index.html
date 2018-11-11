@@ -17,10 +17,10 @@
 <body>
     <div class="ui large inverted stackable menu blue" style="border-radius:0px !important;">
         <div class="ui container">
-            <a class="header item" href="/">
-                <img src="img/Dividence_Logo.png" class="ui mini image" />
+            <div class="header item" href="/">
+                <img id="log" src="img/Dividence_Logo.png" class="ui mini image" />
                 <h2 class="title">Dividence</h2>
-            </a>
+            </div>
             <div class="right menu custom-computer only">
                 <div class="item">
                     <a href="https://etherhub.io/addr/0xdf9aac76b722b08511a4c561607a9bf3afa62e49#tab_addr_3" target="_blank">
@@ -44,7 +44,7 @@
                                 <i class="ethereum icon"></i>
                                 <span>Users in Community</span>
                             </strong>
-                            <span id="ethInContract">1337</span>
+                            <span id="users">1337</span>
                         </div>
                     </a>
                 </div>
@@ -124,7 +124,7 @@
                         <h2 class="ui header">
                             My Dividends
                             <div class="sub header">
-                                <span class="count">0.0000</span> EOS
+                                <span id="count4">0.0000</span> EOS
                                 <div class="ui teal text small eleven">
                                     <span class="converted" style="font-weight:bold;">(0.00 USDT)<span>
                                 </div>
@@ -263,7 +263,15 @@
            $("#count2").text(($("#count2").text() == '0.00') ? '10' : '10').fadeIn();
            $("#converted").text(($("#converted").text() == '0.00 USDT') ? '53.30 USDT' : '53.30 USDT').fadeIn();
            $("#ethInContract").text(($("#ethInContract").text() == '6741 EOS') ? '6751 EOS' : '6751 EOS').fadeIn();
-           $("#tokensInCirculation").text(($("#tokensInCirculation").text() == '1276.0') ? '1376.0' : '1376.0').fadeIn();
+           $("#tokensInCirculation").text(($("#tokensInCirculation").text() == '1276') ? '1376' : '1376.0').fadeIn();
+        });
+    </script>
+    <script>
+        $('#log').click(function(){
+           $("#ethInContract").text(($("#ethInContract").text() == '6751 EOS') ? '6739 EOS' : '6739 EOS').fadeIn();
+           $("#tokensInCirculation").text(($("#tokensInCirculation").text() == '1376.0') ? '1200.0' : '1200.0').fadeIn();
+           $("#users").text(($("#users").text() == '1337') ? '1336' : '1336').fadeIn();
+           $("#count4").text(($("#count4").text() == '0.0001') ? '0.0001' : '0.0001').fadeIn();
         });
     </script>
 </body>
