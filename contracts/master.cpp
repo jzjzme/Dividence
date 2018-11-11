@@ -5,8 +5,8 @@ using namespace eosio;
 
 
 CONTRACT master : public eosio::contract {
-  private:
 
+  private:
 
     bool isnewuser( name user ) {
       auto master_index = _master.get_index<name("getbyuser")>();
@@ -17,7 +17,7 @@ CONTRACT master : public eosio::contract {
 
     TABLE masterStruct{
       uint64_t      prim_key;     // primary key
-      name          user;         // account name for the user
+      name          user;         // account name for the user * Remember name is current value for EOS build
       bool          isBagholder;  // is bagholder bool
       bool          isStrongHands;// is stronghands bool
       uint64_t      timestamp;    // the store the last update block time
@@ -45,7 +45,7 @@ CONTRACT master : public eosio::contract {
        //************* Modifiers **************
        //**************************************
 
-       bool isBagholder() //check user bagholder status
+       bool isBagholder(name user) //check user bagholder status
        {
           auto master_index = _master.get_index<name("getbyuser")>();
           auto &master_entry = master_index.get(user.value);
@@ -65,7 +65,7 @@ CONTRACT master : public eosio::contract {
           }
        };
 
-       bool isStrongHands() //check user stronghands status
+       bool isStrongHands(name user) //check user stronghands status
        {
           auto master_index = _master.get_index<name("getbyuser")>();
           auto &master_entry = master_index.get(user.value);
@@ -89,33 +89,33 @@ CONTRACT master : public eosio::contract {
        //********* Token Generation ***********
        //**************************************
 
-       void create( account_name issuer,
-                    asset        maximum_supply ); // Create ABG token
+       void create(   name     issuer,
+                      asset    maximum_supply ); // Create ABG token
 
-       void issue( account_name to, asset quantity, string memo ); // Issue token to address
+       void issue(    name     to, 
+                      asset    quantity, 
+                      string   memo ); // Issue token to address
 
-       void transfer( account_name from,
-                      account_name to,
-                      asset        quantity,
-                      string       memo ); // P2P transfer of tokens in network
+       void transfer( name     from,
+                      name     to,
+                      asset    quantity,
+                      string   memo ); // P2P transfer of tokens in network
 
        //***************************************
        //******** Entry & Exit points **********
        //***************************************
 
-
-       void buy(address _referral) //Buy ABG token 
+       void buy(name referral, int value_amount) //Buy ABG token 
        {
-          purchaseTokens(msg.value, _referral); //PSUEDO 
+          purchaseTokens(value_amount, referral); //PSUEDO 
        }; 
 
-       void reinvest() //Convert tokens to dividends
+       void reinvest(name user) //Convert tokens to dividends
        {
         if (isStrongHands() == true){
+
           //get dividends
           int dividends = myDividends(false); //retrieve referral business
-
-          address _customerAddress = msg.sender //PSUEDO 
 
           //send moeny to customer address += dividends * mag
 
@@ -128,20 +128,18 @@ CONTRACT master : public eosio::contract {
        }; 
 
 
-       void leave() // Exit, same as withdraw
+       void leave(name user) // Exit, same as withdraw
        {
-          address _customerAddress = msg.sender //PSUEDO 
-          int tokens = token call of _customerAddress //PSUEDO 
+          int tokens = token call of user //PSUEDO 
           if( tokens > 0){
             sell(tokens);
             withdraw();
           }
        };
 
-       void withdraw() //Withdraw all earnings
+       void withdraw(name user ) //Withdraw all earnings
        {
           if(isStrongHands() == true){
-            address = _customerAddress = msg.sender //PSUEDO 
             int dividends() = myDividends(false);
 
             //send money to customer address += dividends * mag
@@ -154,11 +152,9 @@ CONTRACT master : public eosio::contract {
           }
        };
 
-       void sell() //liquidate to EOS
+       void sell(name user) //liquidate to EOS
        {
           if(isBagholder() == false){
-            address _customerAddress = msg.sender //PSUEDO 
-
             if(amount of tokens <= tokenbalance ledger){//PSUEDO 
               int tokens = amount of tokens //PSUEDO 
               int EOS = tokens to EOS //PSUEDO 
@@ -166,7 +162,6 @@ CONTRACT master : public eosio::contract {
               int taxes = EOS - dividends //PSUEDO 
 
               // burn the tokens
-
               token supply = token supply - tokens //PSUEDO 
               token balance ledger = token balance - token supply //PSUEDO 
 
@@ -175,7 +170,6 @@ CONTRACT master : public eosio::contract {
               payouts to address -= payouts //PSUEDO 
 
               // Safety
-
               if(token supply > 0){//PSUEDO 
                 //update dividends per token
                 profitshare = profitshare + (dividends * mag)/ token supply)//PSUEDO 
@@ -188,13 +182,11 @@ CONTRACT master : public eosio::contract {
        //************** Actions ****************
        //***************************************
 
-       void transfer( account_name from,
-                      account_name to,
+       void transfer( name         from,
+                      name         to,
                       asset        quantity,
                       string       memo ){// P2P transfer of tokens in network, include fee here 10%?
-        if(isBagholder() == true){
-          address _customerAddress = msg.sender //PSUEDO
-
+        if(isBagholder(name user) == true){
           //withdraw dividends
           if(myDividends(true) >0){
             withdraw();
@@ -242,14 +234,21 @@ CONTRACT master : public eosio::contract {
        void myTokens() //Retrieve tokens of caller
        {};
 
-       void myDividends() //Retrieve dividends of caller
-       {};
+       void myDividends(bool referral_bonus,
+                        name user) //Retrieve dividends of caller (taking bool true false)
+       {
+          return dividendOf(user);
+       };
 
        void balanceOf() //Retrieve balance of address
        {};
 
-       void dividendOf() //Retrieve divdend of address
-       {};
+       int dividendOf(name user) //Retrieve divdend of address
+       {
+          // int value = (profitshare * tokenbalance[user] - payoutsTo[user] / mag);
+          int value = 0; // for testing purposes 
+          return value;
+       };
 
        void sellPrice() //Retrieve current ABG token sell price
        {};

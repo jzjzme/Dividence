@@ -3,6 +3,11 @@
 using namespace eosio;
 
 
+//***************************************
+//************** Summary ****************
+//***************************************
+
+
 CONTRACT abg : public eosio::contract {
   private:
 
@@ -21,7 +26,7 @@ CONTRACT abg : public eosio::contract {
  }
 
 
- 
+
 
 
 
