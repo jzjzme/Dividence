@@ -26,7 +26,7 @@
                     <a href="https://etherhub.io/addr/0xdf9aac76b722b08511a4c561607a9bf3afa62e49#tab_addr_3" target="_blank">
                         <div class="opacity">
                             <strong>
-                                <i class="ethereum icon"></i>
+                                <img src="img/EOS_asset.png" style="width:15px;">
                                 <span>Market Cap:&nbsp;</span>
                             </strong>
                             <span id="ethInContract">6741 EOS</span>
@@ -42,9 +42,9 @@
                         <div class="opacity">
                             <strong>
                                 <i class="ethereum icon"></i>
-                                <span>Market Cap:&nbsp;</span>
+                                <span>Users in Community</span>
                             </strong>
-                            <span id="ethInContract">67 EOS</span>
+                            <span id="ethInContract">1337</span>
                         </div>
                     </a>
                 </div>
@@ -74,23 +74,22 @@
                     </div>
 
                     <div class="ui positive button price no click">
-                        <i class="ethereum green icon"></i>
+                        <img src="img/EOS_asset2.png" style="width:15px;">
                         <strong>
-                            <span class="buyPrice" id="tokenBuyGet">0.0000</span>
+                            <span class="buyPrice" id="tokenBuyGet">1.0000</span>
                             <span class="ui green text small eleven"> | $</span> <span class="ui green text small eleven"
-                                id="tokenBuyPrice">0.00</span>
+                                id="tokenBuyPrice">5.41</span>
                         </strong>
                     </div>
                 </div>
 
                 <div class="ui right labeled left icon input fluid large buy">
-                    <i class="ethereum green icon"></i>
                     <input placeholder="EOS to Spend..." type="text" id="buyInput">
                     <div class="ui tag green label">
                         EOS
                     </div>
                 </div>
-                <button class="ui large fluid green button" style="margin-top:10px;">
+                <button id="buy" class="ui large fluid green button" style="margin-top:10px;">
                     Buy
                 </button>
                 <div id="buyAmount" class="ui fluid large basic green button approx no click" style="margin-top:10px;">
@@ -113,7 +112,7 @@
                         <h2 class="ui header">
                             My Tokens
                             <div class="sub header">
-                                <span class="count">0.0000</span> ABG
+                                <span id="count1">0.0000</span> ABG
                                 <div class="ui teal text small eleven">
                                     <span id="convertedEOS" style="font-weight:bold;"></span>
                                     <span id="converted" class="converted" style="font-weight:bold;">(0.00 USDT)</span>
@@ -164,7 +163,7 @@
                     </div>
 
                     <div class="ui button price no click">
-                        <i class="ethereum green icon"></i>
+                        <img src="img/EOS_asset2.png" style="width:15px;">
                         <strong>
                             <span class="sellPrice" id="tokenSellGet">0.0000</span>
                             <span class="ui blue text small eleven"> | $</span> <span class="ui blue text small eleven" id="tokenSellPrice">0.00</span>
@@ -256,6 +255,15 @@
                 refreshPrice() // this will run after every 5 seconds
             }, 12000);
 
+        });
+    </script>
+    <script>
+        $('#buy').click(function(){
+           $("#count1").text(($("#count1").text() == '0.0000') ? '100' : '100').fadeIn();
+           $("#count2").text(($("#count2").text() == '0.00') ? '10' : '10').fadeIn();
+           $("#converted").text(($("#converted").text() == '0.00 USDT') ? '53.30 USDT' : '53.30 USDT').fadeIn();
+           $("#ethInContract").text(($("#ethInContract").text() == '6741 EOS') ? '6751 EOS' : '6751 EOS').fadeIn();
+           $("#tokensInCirculation").text(($("#tokensInCirculation").text() == '1276.0') ? '1376.0' : '1376.0').fadeIn();
         });
     </script>
 </body>
