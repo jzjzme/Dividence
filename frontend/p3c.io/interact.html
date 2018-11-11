@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ABG - Dashboard</title>
+    <meta charset="utf8">
+    <meta name="description" content="Planetary Propserity Project. Universal Basic Income on Ethereum Classic">
+    <meta name="keywords" content="EOS Dapps,Ethereum Classic, EOS, Universal Basic Income Dapp, UBI Dapp, UBI Ethereum, Universal Basic income Ethereum">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/alertify.css">
+    <link rel="icon" type="image/png" href="img/whale.png">
+
+</head>
+
+<body>
+    <div class="ui large inverted stackable menu gradient emerald" style="border-radius:0px !important;">
+        <div class="ui container">
+            <a class="header item" href="/">
+                <img src="img/whale.svg" class="ui mini image" />
+                <h2 class="title">ABG.io</h2>
+            </a>
+            <div class="right menu custom-computer only">
+                <div class="item">
+                    <a href="https://etherhub.io/addr/0xdf9aac76b722b08511a4c561607a9bf3afa62e49#tab_addr_3" target="_blank">
+                        <div class="opacity">
+                            <strong>
+                                <i class="ethereum icon"></i>
+                                <span>Market Cap:&nbsp;</span>
+                            </strong>
+                            <span id="ethInContract">0 EOS</span>
+                        </div>
+                    </a>
+                    <div class="opacity">
+                        <strong>
+                            <i class="tree icon"></i>
+                            <span>Supply:&nbsp;</span>
+                        </strong>
+                        <span id="tokensInCirculation">0.0</span> ABG</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui container margin top two">
+
+        <div class="ui stackable grid">
+
+            <div class="four wide column buy">
+                <h2 class="ui header">
+                    <img src="img/time-forward.svg" class="width one and eight" />
+                    <div class="content">
+                        <span>Buy</span>
+                        <span class="ui green text small">&nbsp;| Strong Hands</span>
+                        <div class="sub header">
+                            <strong>Start here</strong>! Buy and earn.</div>
+                    </div>
+                </h2>
+
+                <div class="ui fluid large basic buttons" style="margin-top:10px; margin-bottom:10px;">
+                    <div class="ui button price no click">
+                        <i class="tree icon"></i>
+                        <strong>Price</strong>
+                    </div>
+
+                    <div class="ui positive button price no click">
+                        <i class="ethereum green icon"></i>
+                        <strong>
+                            <span class="buyPrice" id="tokenBuyGet">0.0000</span>
+                            <span class="ui green text small eleven"> | $</span> <span class="ui green text small eleven"
+                                id="tokenBuyPrice">0.00</span>
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="ui right labeled left icon input fluid large buy">
+                    <i class="ethereum green icon"></i>
+                    <input placeholder="EOS to Spend..." type="text" id="buyInput">
+                    <div class="ui tag green label">
+                        EOS
+                    </div>
+                </div>
+                <button class="ui large fluid green button" style="margin-top:10px;">
+                    Buy
+                </button>
+                <div id="buyAmount" class="ui fluid large basic green button approx no click" style="margin-top:10px;">
+                    <i>How much will you buy?</i>
+                </div>
+
+            </div>
+            <div class="eight wide column border right border left" style="background: rgba(58, 150, 139, 0.17);">
+                <h1 class="ui header">
+                    <div style="margin-left: 10px;" class="content">My Holdings
+                        <div class="sub header">Strong hands lead to growth and stability. <a target="_blank" href="https://ABG.trade">Price
+                                Chart
+                            </a></div>
+                    </div>
+                </h1>
+
+                <div class="ui horizontal segments">
+
+                    <div class="ui padded center aligned segment" id="myTokens">
+                        <h2 class="ui header">
+                            My Tokens
+                            <div class="sub header">
+                                <span class="count">0.0000</span> ABG
+                                <div class="ui teal text small eleven">
+                                    <span id="convertedEOS" style="font-weight:bold;"></span>
+                                    <span id="converted" class="converted" style="font-weight:bold;">(0.00 USDT)</span>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+                    <div class="ui padded center aligned segment" id="myDividends">
+                        <h2 class="ui header">
+                            My Dividends
+                            <div class="sub header">
+                                <span class="count">0.0000</span> EOS
+                                <div class="ui teal text small eleven">
+                                    <span class="converted" style="font-weight:bold;">(0.00 USDT)<span>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="ui two column centered grid">
+                    <div class="column">
+                        <button id="reinvest" class="ui teal fluid button large">Reinvest My Dividends</button>
+                    </div>
+                    <div class="column">
+                        <button id="withdraw" class="ui teal fluid button large">Withdraw My Dividends</button>
+                    </div>
+                </div>
+                <div class="ui one column centered grid">
+                </div>
+
+            </div>
+            <div class="four wide column sell">
+                <h2 class="ui header">
+                    <img src="img/time-backward.svg" class="width one and eight" />
+                    <div class="content">
+                        <span>Sell</span>
+                        <span class="ui text blue small">&nbsp;| Weak Hands</span>
+                        <div class="sub header">
+                            Sell for a profit or loss.</div>
+                    </div>
+                </h2>
+
+                <div class="ui fluid large basic buttons" style="margin-top:10px; margin-bottom:10px;">
+                    <div class="ui button price no click">
+                        <i class="tree icon"></i>
+                        <strong>Price</strong>
+                    </div>
+
+                    <div class="ui button price no click">
+                        <i class="ethereum green icon"></i>
+                        <strong>
+                            <span class="sellPrice" id="tokenSellGet">0.0000</span>
+                            <span class="ui blue text small eleven"> | $</span> <span class="ui blue text small eleven" id="tokenSellPrice">0.00</span>
+                        </strong>
+                    </div>
+                </div>
+
+
+                <div class="ui right labeled left icon input fluid large">
+                    <i class="tree blue icon"></i>
+                    <input placeholder="ABG to Sell..." type="text" id="sellInput">
+                    <span class="ui tag blue label">
+                        ABG
+                    </span>
+                </div>
+                <button class="ui large fluid blue button" style="margin-top:10px;">
+                    Sell
+                </button>
+                <div id="sellAmount" class="ui fluid large basic blue button no click approx" style="margin-top:10px;">
+                    <i>How much will you sell?</i>
+                </div>
+            </div>
+        </div>
+
+        <div style="background-color: #eee; height: 1px; margin-top:20px; margin-bottom:20px;"></div>
+
+
+        <div style="background-color: #eee; height: 1px; margin-top:20px; margin-bottom:20px;"></div>
+
+    </div>
+    <!-- 
+    <div class="ui active dimmer" id="loadingSpinner">
+        <div class="ui massive text loader" id="loadingText">
+            <div class="content">
+                <h2 class="ui inverted header">Connecting to <i>Ethereum Classic</i></h2>
+                <a target="_blank" href="https://ABG.hostedwiki.co/pages/ABG%20-%20Explained#how-to-start-playing" class="ui right labeled large icon green button">
+                    <i class="question circle outline icon"></i>
+                    Make an account?
+                </a>
+                <noscript><h2 class="ui inverted header">You need to enable JavaScript to run this app.</h2></noscript>
+            </div>
+        </div>
+    </div> -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/underscore.min.js"></script>
+    <script src="js/bluebird.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/alertify.js"></script>
+
+    <script src="lib/contracts.js"></script>
+    <script src="lib/interact.js"></script>
+    <script src="lib/buy.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var converted = false
+            function refreshPrice() {
+                $.getJSON('https://min-api.cryptocompare.com/data/price?fsym=EOS&tsyms=USDT', function (json) {
+
+
+                    var USEOS = JSON.parse(JSON.stringify(json)).USDT;
+                    var PRIBG = $("#tokenBuyGet").text();
+                    var PRISG = $("#tokenSellGet").text();
+
+                    var tokenBuyPrice = (USEOS * PRIBG).toFixed(2);
+                    var tokenSellPrice = (USEOS * PRISG).toFixed(2);
+
+
+                    $("#tokenBuyPrice").text(tokenBuyPrice)
+                    $("#tokenSellPrice").text(tokenSellPrice)
+                    if ($("#convertedEOS").html() !== 'undefined' && !converted) {
+                        converted = true;
+                        var EOSValue = $("#converted").html().match(/[+-]?\d+(?:\.\d+)?/g).map(Number) / USEOS
+                        $("#convertedEOS").text(EOSValue.toFixed(2) + " EOS")
+                    }
+                });
+            }
+
+            setTimeout(function () { refreshPrice() }, 2500);
+            setInterval(function () {
+                refreshPrice() // this will run after every 5 seconds
+            }, 12000);
+
+        });
+    </script>
+</body>
+
+</html>
