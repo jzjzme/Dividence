@@ -3,6 +3,7 @@
 
 using namespace eosio;
 
+// Hackers GTFO pls
 
 CONTRACT master : public eosio::contract {
 
@@ -27,20 +28,25 @@ CONTRACT master : public eosio::contract {
       // secondary key
       // only supports uint64_t, uint128_t, uint256_t, double or long double
       uint64_t get_by_user() const { return user.value; }
-
     }
-
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< name("masterstruct"), masterstruct,
       indexed_by< name("getbyuser"), const_mem_fun<notestruct, uint64_t, &masterstruct::get_by_user> >
-      > master_table;
+      > master_table; //fix maybe?
 
     master_table _master;
 
+    //**************************************
+    //********** Configurables *************
+    //**************************************
+
+    int magnitude = 2*64; //arbitrary
+    int staking_requirement = 1; // 1 ABG or EOS? 
+
+    //************ END PRIVATE ****************
   public:
 
     using contract::contract;
-
        //**************************************
        //************* Modifiers **************
        //**************************************
@@ -126,7 +132,6 @@ CONTRACT master : public eosio::contract {
           //do
         }
        }; 
-
 
        void leave(name user) // Exit, same as withdraw
        {
@@ -266,12 +271,30 @@ CONTRACT master : public eosio::contract {
        //*************** Admin *****************
        //***************************************
 
-       void purchaseTokens() //System buy tokens
-       {};
+       void purchaseTokens(int    EOS_amount, 
+                           name    ) //System buy tokens
+       {
 
-       void ABG_to_EOS(int tokens) //Calculate sell value of tokens back 
+       };
+
+       int EOS_to_ABG(int EOS)
+       {
+          int token; //need to think this math lols 
+          // some temp math here
+
+          token = 10;
+
+          return token;
+       }
+
+       int ABG_to_EOS(int ABG) //Calculate sell value of tokens back 
        {
           int token; //need to think this math
+          //some temp math here
+
+          token = 10;
+
+          return token;
        };
  }
 
