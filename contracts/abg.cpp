@@ -32,7 +32,7 @@ CONTRACT abg : public eosio::contract {
   	 //Whenever receives money, should reinvest dividends back into the market. 
 
 
-  	 
+  	 //NOT DONE YET
 
 
  }
